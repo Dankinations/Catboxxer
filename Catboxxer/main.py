@@ -44,6 +44,7 @@ def CMD_help():
     print(f"{colorama.Fore.GREEN}== Catboxxer Help =={colorama.Fore.RESET}")
     print(f"{colorama.Fore.CYAN}upload{colorama.Fore.RESET} - Uploads the specified file to Catbox.moe and returns the URL")
     print(f"{colorama.Fore.CYAN}help{colorama.Fore.RESET} - Displays this help message")
+    print(f"{colorama.Fore.CYAN}====================={colorama.Fore.RESET}")
 
 def CMD_sethash():
     if len(arguments) <= 2:
@@ -52,7 +53,7 @@ def CMD_sethash():
     global API_KEY
     API_KEY = arguments[2]
     open(apikeylocation, "w").write(API_KEY)
-    print("Hash key set successfully")
+    print(f"{colorama.Fore.GREEN}Hash key set successfully{colorama.Fore.RESET}")
 
 cmds = {
     "upload": CMD_upload,
