@@ -6,8 +6,8 @@ import colorama
 arguments = sys.argv
 apikeylocation = Path(__file__).resolve().parent / "catboxhash.txt"
 
-NO_HASH_ERROR = f"{colorama.Fore.RED}No hash key set. Please set it using 'catboxxer sethash <your_hash_key>'{colorama.Fore.RESET}"
-API_KEY = ""
+if getattr(sys, 'frozen', False):
+    apikeylocation = Path(sys.executable).parent / "catboxhash.txt"
 
 if apikeylocation.exists():
     with open(apikeylocation, "r") as f:
@@ -15,6 +15,9 @@ if apikeylocation.exists():
 else:
     with open(apikeylocation, "w") as f:
         f.write("")
+
+NO_HASH_ERROR = f"{colorama.Fore.RED}No hash key set. Please set it using 'catboxxer sethash <your_hash_key>'{colorama.Fore.RESET}"
+API_KEY = ""
 
 def upload_file_to_catbox(file_path):
     catbox = catboxAPI(API_KEY)
@@ -31,7 +34,7 @@ def CMD_upload():
         print(NO_HASH_ERROR)
         return
     if len(arguments) <= 2:
-        print("Usage: catboxxer upload <file_path>")
+        print(f"{colorama.Fore.CYAN}Usage: catboxxer upload <file_path>{colorama.Fore.RESET}")
         return
     file_path = arguments[2]
     try:
@@ -49,7 +52,7 @@ def CMD_help():
 
 def CMD_sethash():
     if len(arguments) <= 2:
-        print("Usage: catboxxer sethash <hash key from https://catbox.moe/user/manage.php>")
+        print(f"{colorama.Fore.CYAN}Usage: catboxxer sethash <hash key from https://catbox.moe/user/manage.php>{colorama.Fore.RESET}")
         return
     global API_KEY
     API_KEY = arguments[2]
@@ -63,7 +66,7 @@ cmds = {
 }
 
 for i in cmds:
-    if len(arguments) <= 2:
+    if len(arguments) <= 1:
         cmds["help"]()
         break
     if arguments[1] == i:
