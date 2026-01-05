@@ -42,9 +42,10 @@ def CMD_upload():
 
 def CMD_help():
     print(f"{colorama.Fore.GREEN}== Catboxxer Help =={colorama.Fore.RESET}")
-    print(f"{colorama.Fore.CYAN}upload{colorama.Fore.RESET} - Uploads the specified file to Catbox.moe and returns the URL")
     print(f"{colorama.Fore.CYAN}help{colorama.Fore.RESET} - Displays this help message")
-    print(f"{colorama.Fore.CYAN}====================={colorama.Fore.RESET}")
+    print(f"{colorama.Fore.CYAN}upload <file path>{colorama.Fore.RESET} - Uploads the specified file to catbox and returns the URL")
+    print(f"{colorama.Fore.CYAN}sethash <hash>{colorama.Fore.RESET} - Sets the user hash for accessing catbox api, get your hash from https://catbox.moe/user/manage.php")
+    print(f"{colorama.Fore.GREEN}====================={colorama.Fore.RESET}")
 
 def CMD_sethash():
     if len(arguments) <= 2:
