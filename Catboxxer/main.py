@@ -5,6 +5,7 @@ import colorama
 
 arguments = sys.argv
 apikeylocation = Path(__file__).resolve().parent / "catboxhash.txt"
+API_KEY = ""
 
 if getattr(sys, 'frozen', False):
     apikeylocation = Path(sys.executable).parent / "catboxhash.txt"
@@ -17,7 +18,6 @@ else:
         f.write("")
 
 NO_HASH_ERROR = f"{colorama.Fore.RED}No hash key set. Please set it using 'catboxxer sethash <your_hash_key>'{colorama.Fore.RESET}"
-API_KEY = ""
 
 def upload_file_to_catbox(file_path):
     catbox = catboxAPI(API_KEY)
