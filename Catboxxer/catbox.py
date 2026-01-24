@@ -1,7 +1,7 @@
 import requests
-from alive_progress import alive_bar
 import os
 from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
+import utils
 
 class catboxAPI:
     REQUEST_URL = "https://catbox.moe/user/api.php"
@@ -9,22 +9,25 @@ class catboxAPI:
     def __init__(self, hash: str):
         self.hash = hash
 
-    def upload_file(self,file:str,hideBar:bool=False):
+    def upload_file(self,file:str,set_progress:callable):
         if not file: return None
         with open(file,"rb") as f:
             encoder = MultipartEncoder(
                 fields={
                     'reqtype': 'fileupload',
-                    'fileToUpload': (os.path.basename(file), f, 'application/octet-stream')
+                    'userhash': self.hash,
+                    'fileToUpload': (os.path.basename(file), f, 'application/octet-stream'),
                 }
             )
 
-            with alive_bar(encoder.len, title="Uploading", unit="B", scale="SI") as bar:
-                monitor = MultipartEncoderMonitor(encoder, lambda monitor: bar( monitor.bytes_read - bar.current  ) )
+            monitor = MultipartEncoderMonitor(encoder, lambda monitor: set_progress(monitor.bytes_read) )
 
+            try:
                 response = requests.post(
                     self.REQUEST_URL, 
                     data=monitor, 
                     headers={'Content-Type': monitor.content_type
                 })
-            return response
+            except:
+                utils.displayNotification("Catboxxer", "There was an error uploading your file!", icon = utils.toastIcon)
+            return response.text
