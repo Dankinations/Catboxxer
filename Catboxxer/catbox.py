@@ -28,6 +28,7 @@ class catboxAPI:
                     data=monitor, 
                     headers={'Content-Type': monitor.content_type
                 })
+                return response.text
             except:
                 utils.displayNotification("Catboxxer", "There was an error uploading your file!", icon = utils.toastIcon)
-            return response.text
+            
