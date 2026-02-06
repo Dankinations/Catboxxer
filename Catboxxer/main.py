@@ -1,6 +1,6 @@
 from pathlib import Path
 from ui import UI
-import os
+import cache
 from service_manager import Service,KeyListener
 from pynput.keyboard import Key
 import utils
@@ -14,7 +14,8 @@ if apikeylocation.exists():
         API_KEY = f.read().strip()
 else:
     with open(apikeylocation, "w") as f:
-        f.write("TEMPLATE")
+        f.write("")
+        API_KEY = ""
 
 # Logic
 
@@ -36,6 +37,9 @@ def on_quit():
         service.set_ui_toggle(False)
 
 ui = UI()
+cache.UI = ui
+cache.update_cache("r")
+
 service = Service(ui,exit)
 ui.window.protocol("WM_DELETE_WINDOW",on_quit)
 

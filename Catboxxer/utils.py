@@ -1,6 +1,8 @@
 import sys,os
 from win11toast import toast
 from threading import Thread
+from pathlib import Path
+import json
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -21,3 +23,10 @@ toastIcon = {
 
 def displayNotification(*args, **kwargs):
     Thread(target=lambda: toast(*args, **kwargs)).start()
+
+def is_file_allowed(file:str) -> bool:
+    pat = Path(file)
+    not_allowed = [".exe",".scr",".doc",".jar",".cpl"]
+    if pat.suffix in not_allowed:
+        return False
+    return True
