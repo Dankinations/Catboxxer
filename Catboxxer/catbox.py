@@ -70,8 +70,9 @@ class catboxAPI:
               }
             )
 
-            if not "successfully deleted" in response.text:
-                raise Exception(f"{response.text}")
+            if (not "successfully deleted" in response.text.lower()) and (not "doesn't" in response.text.lower()):
+                raise Exception(response.text)
+
             return response.text
         except Exception as e:
             CTkMessagebox(title="Catboxxer", message=f"There was an error deleting your file{len(files) > 1 and "s" or ""}\nException: {e}", icon = utils.catboxICO, sound=True)
@@ -87,7 +88,7 @@ class catboxAPI:
                 'short': albumid
               }
             )
-            print(response.text)
+
             if not "://" in response.text:
                 raise Exception(f"{response.text}")
             return response.text
@@ -123,7 +124,7 @@ class catboxAPI:
               }
             )
 
-            if not "://" in response.text:
+            if response.text != "":
                 raise Exception(f"{response.text}")
             return response.text
         except Exception as e:
